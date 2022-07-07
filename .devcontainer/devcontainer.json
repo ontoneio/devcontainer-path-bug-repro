@@ -1,0 +1,83 @@
+{
+    "name": "DevContainer PATH bug",
+    // "image": "",
+    "build": {
+      "dockerfile": "../Dockerfile"
+    },
+    "overrideCommand": false,
+    // "remoteUser": "vscode",
+    "forwardPorts": [3000, 8000],
+   "remoteEnv": {
+    // NOT WORKING
+      // "PATH": "${containerEnv:$PATH}:${containerEnv:GLOBAL_DEPS}",
+    // NOT WORKING
+      // "PATH": "${containerEnv:$PATH}"
+    },
+    "containerEnv": {
+      "GLOBAL_DEPS": "/workspaces/devcontainer-bug/node_modules/.bin"
+    },
+    "mounts": [
+      "source=devcontainer-bug,target=${containerWorkspaceFolder}/node_modules,type=volume",
+      "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+    ],
+    "postCreateCommand": "sudo chown $(whoami) node_modules",
+    "postStartCommand": "npm install",
+    "customizations": {
+      "vscode": {
+          "settings": {
+            "terminal.integrated.shellIntegration.enabled": true,
+            "git.enableSmartCommit": true,
+            "workbench.colorCustomizations": {
+              "activityBar.activeBackground": "#f28eb8",
+              "activityBar.activeBorder": "#edfce2",
+              "activityBar.background": "#f28eb8",
+              "activityBar.foreground": "#15202b",
+              "activityBar.inactiveForeground": "#15202b99",
+              "activityBarBadge.background": "#edfce2",
+              "activityBarBadge.foreground": "#15202b",
+              "sash.hoverBorder": "#f28eb8",
+              "statusBar.background": "#ed609b",
+              "statusBar.foreground": "#15202b",
+              "statusBarItem.hoverBackground": "#e8327e",
+              "statusBarItem.remoteBackground": "#ed609b",
+              "statusBarItem.remoteForeground": "#15202b",
+              "titleBar.activeBackground": "#ed609b",
+              "titleBar.activeForeground": "#15202b",
+              "titleBar.inactiveBackground": "#ed609b99",
+              "titleBar.inactiveForeground": "#15202b99"
+            },
+            "peacock.color": "#ed609b",
+            "peacock.remoteColor": "#4aace9",
+            "editor.linkedEditing": true,
+            "html.autoClosingTags": true,
+            "javascript.autoClosingTags": true,
+            "typescript.autoClosingTags": true,
+            "javascript.suggest.autoImports": true,
+            "typescript.suggest.autoImports": true,
+            "javascript.updateImportsOnFileMove.enabled": "always",
+            "typescript.updateImportsOnFileMove.enabled": "always",
+            "emmet.excludeLanguages": [],
+            "emmet.includeLanguages": {
+              "vue-html": "html",
+              "javascript": "javascriptreact"
+            },
+            "files.trimTrailingWhitespace": true,
+            "[markdown]": {
+              "files.trimTrailingWhitespace": false
+            },
+            "editor.occurrencesHighlight": true,
+            "vscode-kubernetes.kubectl-path": "/usr/local/bin/kubectl",
+            "vscode-kubernetes.helm-path": "/usr/local/bin/helm",
+            "terminal.integrated.defaultProfile.linux": "BASH DEV",
+            "terminal.integrated.profiles.linux": {
+              "BASH DEV": {
+                "path": "/bin/bash"
+              }
+            }
+          },
+          "extensions": [
+            "ms-azuretools.vscode-docker"
+          ]
+      }
+    }
+  }
